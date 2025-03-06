@@ -11,7 +11,7 @@ API_KEY = os.getenv("API-KEY")	# Your API_KEY here
 PROJECT = "all"; # try specific floras: "weurope", "canada"…
 api_endpoint = f"https://my-api.plantnet.org/v2/identify/{PROJECT}?api-key={API_KEY}"
 
-image_path_1 = "spiderplant.jpg"
+image_path_1 = "barrel.jpg"
 image_data_1 = open(image_path_1, 'rb')
 
 data = { 'organs': ['auto'] }

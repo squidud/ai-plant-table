@@ -1,0 +1,5 @@
+add a diagnosis feature with https://www.kindwise.com/plant-id. Use current free api for image recognition and use kindwise for plant diagnosis features
+(give a message if no api tokens left)
+
+
+run: pip3 freeze > requirements.txt after new libraries are installed

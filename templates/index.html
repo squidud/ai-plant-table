@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balls tester</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+        img {width: 100px;}
+    </style>
+</head>
+<body>
+
+    <h1>Balls tester</h1>
+    <img src="{{ url_for('static', filename='image.jpg') }}" alt="My Image">
+    <button onclick="triggerPythonFunction()">Run Python Function</button>
+    <p id="response"></p>
+
+    <script>
+        function triggerPythonFunction() {
+            document.getElementById('response').innerText = "Processing...";
+            fetch('/run-scanny', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'button_clicked' })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('response').innerText = "Detected plant: " + data.plant_name;
+            })
+
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+
+</body>
+</html>

@@ -44,13 +44,27 @@ def scanny():
 
 
   #google gemini response bullshit
-  gem_prompt = "For a plant " + common_name +", please tell me the ideal moisture level as measured by a capacitive soil moisture sensor as well as the ideal number of hours per day to have it's grow light on. Respond only in the format of {moisturevalue_percent, hours}. These should not be ranges, but a single int values with no other characters"
+  gem_prompt = "For a plant " + common_name +", please tell me the ideal moisture level as measured by a capacitive soil moisture sensor as well as the ideal number of hours per day to have it's grow light on. Respond only in the format of 'moisturevalue_percent()hours'. These should not be ranges, but a single int values with no other characters. For example, a correctly-formatted response would be: 70()12"
 
   client = genai.Client(api_key=os.getenv('GEMINI-API-KEY'))
   response = client.models.generate_content(
       model="gemini-2.0-flash", contents=gem_prompt
   )
   print("Gemini response {ideal_moisture_as_percent, hours_of_light/day}: " + response.text)
+
+  #writes information to json file
+  newjsondata = {
+      "commonname": common_name,
+      "sunlight": int(response.text.split("()")[1]),
+      "moisture": int(response.text.split("()")[0])
+  }
+
+  filename = "static/data.json"
+
+  with open(filename, 'w') as file:
+      json.dump(newjsondata, file, indent=4)
+
+  print(f"Data written to {filename}")
 
   #returns plant name for gui business
   return common_name

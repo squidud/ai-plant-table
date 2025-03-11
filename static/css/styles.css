@@ -1,0 +1,123 @@
+img {
+    width: 100%;
+    border-radius: 20px;
+    box-shadow: 10px 20px 20px #00000086;
+    margin: 0px; 
+    padding:10px;
+    background-color: #6A994E;
+}
+
+h1 {
+    text-shadow: 6px 6px 20px #a7c95783;
+    color: #A7C957;
+}
+
+h2 {
+    color: #F2E8CF;
+    font-size: medium;
+}
+
+.box {
+    backdrop-filter: blur(2px);
+    background: rgba(255, 255, 255, 0.1);
+    display: inline-block;
+    padding: 5px 10px; 
+    box-shadow: 10px 20px 20px #00000086;
+    border-radius: 20px;
+    width: 100%;
+    text-align: left;
+}
+
+
+.button {
+    background-color: #F2E8CF;
+    text-align:center;
+    border-radius: 20px;
+    font-size:20px;
+    margin:15px;
+    display: inline-block;
+    box-shadow: 10px 20px 20px #00000086;
+    padding:10px;
+    text-decoration: none;
+    transition: all 1s;
+    color: #d76b6b;
+    width:75%;
+  }
+  
+.button:hover {
+background-color: #d76b6b;
+transition: all 0.5s;
+color: #F2E8CF;
+}
+
+.zoom {
+transition: transform .3s; 
+}
+
+.zoom:hover {
+transform: scale(1.1);
+}
+
+[hidden] {
+    display: none !important;
+}
+
+p{
+    color: #6A994E;
+}
+
+body {
+    background-color: #231F20; 
+    background-image: url("https://www.transparenttextures.com/patterns/pinstriped-suit.png");
+    background-size: 500px 500px; 
+    animation: movePattern 20s linear infinite; 
+}
+
+/* Pattern animation */
+@keyframes movePattern {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 200px 200px;
+    }
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevents scrolling */
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    height: 100vh; 
+}
+
+.left, .right {
+    width: 50%; 
+    padding: 20px;
+    margin: 20px;
+    text-align: center;
+}
+
+.right {
+    background: rgba(106, 153, 78, 0.1);
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; /* Centers items horizontally */
+    justify-content: center; /* Centers items vertically */
+    box-shadow: 10px 20px 20px #00000086;
+    border-radius: 20px; 
+    backdrop-filter: blur(2px);
+}
+
+.left {
+    display: flex; 
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Centers items horizontally */
+    justify-content: center; /* Centers items vertically */
+    border-radius: 20px; 
+}

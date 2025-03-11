@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balls tester</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="container">
+    <div class="left">
+        <h1>Plant Identifier</h1>
+        <br>
+        <img src="{{ url_for('static', filename='image.jpg') }}" alt="My Image">
+    </div>
+    <div class="right">
+        <button id="scanButton" class="button zoom" onclick="triggerPythonFunction()">Scan Image</button>
+        <p class="box" id="response"></p>
+        <a class="button zoom" href="{{ url_for('index') }}" id="dashButton" hidden>Dashboard</a>
+    </div>
+
+    <script>
+        function triggerPythonFunction() {
+            document.getElementById('response').innerText = "Processing...";
+            fetch('/run-scanny', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'button_clicked' })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('response').innerHTML = "Detected plant: <b>" + data.plant_name + "</b>";
+                document.getElementById('scanButton').setAttribute('hidden', '');
+                document.getElementById('dashButton').removeAttribute('hidden');
+            })
+
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+
+</body>
+</html>

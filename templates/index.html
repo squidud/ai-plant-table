@@ -3,36 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Balls tester</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-        button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
-        img {width: 100px;}
-    </style>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
-<body>
-
-    <h1>Balls tester</h1>
-    <img src="{{ url_for('static', filename='image.jpg') }}" alt="My Image">
-    <button onclick="triggerPythonFunction()">Run Python Function</button>
-    <p id="response"></p>
-
-    <script>
-        function triggerPythonFunction() {
-            document.getElementById('response').innerText = "Processing...";
-            fetch('/run-scanny', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'button_clicked' })
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('response').innerText = "Detected plant: " + data.plant_name;
-            })
-
-            .catch(error => console.error('Error:', error));
-        }
-    </script>
+<body class="container">
+    <div class="left">
+        <h1 id="plantTitle">Balls title</h1>
+        <div class="box"><h2 id="infoTitle">Balls info</h2></div>
+        <br>
+        <img src="{{ url_for('static', filename='image.jpg') }}" alt="My Image">
+    </div>
+    <div class="right">
+        <a class="button zoom" href="{{ url_for('scan') }}">Register a Plant</a>
+        <a class="button zoom" href="{{ url_for('log') }}">Activity Log</a>
+    </div>
 
 </body>
+
+<script>
+    //is possible, updates readout for current plant :)
+    function fetchPlant() {
+        fetch('/static/data.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('JSON file not found, assuming no plant');  // Handle missing file
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById('plantTitle').innerText = data.commonname;
+            document.getElementById('infoTitle').innerHTML = "Needs <b>" + data.sunlight + " hours</b> of light per day, and a <b>" + data.moisture + "%</b> soil moisture level.";
+        })
+        .catch(error => {
+            console.error('Error fetching JSON:', error);
+            document.getElementById('plantTitle').innerText = "No plant registered!";
+            document.getElementById('infoTitle').innerText = "Please register a plant to continue.";
+        });
+    }
+
+    // Auto-load message when the page loads
+    window.onload = fetchPlant;
+</script>
+
+
 </html>

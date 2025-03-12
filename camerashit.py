@@ -1,5 +1,7 @@
 import cv2
 
+IMAGE_PATH = "static/image.jpg"
+
 def capture():
     cam_port = 0
     cam = cv2.VideoCapture(cam_port) 
@@ -13,7 +15,7 @@ def capture():
     result, image = cam.read() 
 
     if result:
-        cv2.imwrite("static/image.jpg", image) 
+        cv2.imwrite(IMAGE_PATH, image) 
     else:
         print("No image detected. Please try again.")
 
@@ -21,4 +23,4 @@ def capture():
     cam.release()
 
 # Run the function
-capture()
+#capture()

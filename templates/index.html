@@ -7,14 +7,15 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body class="container">
+    <img src="{{ url_for('static', filename='logo.png') }}" class="logo">
     <div class="left">
         <h1 id="plantTitle">Balls title</h1>
         <div class="box"><h2 id="infoTitle">Balls info</h2></div>
         <br>
-        <img src="{{ url_for('static', filename='image.jpg') }}" alt="My Image">
+        <img src="{{ url_for('static', filename='image.jpg') }}" alt="No Image">
     </div>
     <div class="right">
-        <a class="button zoom" href="{{ url_for('scan') }}">Register a Plant</a>
+        <a class="button zoom" href="{{ url_for('cam') }}">Register a Plant</a>
         <a class="button zoom" href="{{ url_for('log') }}">Activity Log</a>
     </div>
 

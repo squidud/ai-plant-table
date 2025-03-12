@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balls tester</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="container">
+    <img src="{{ url_for('static', filename='logo.png') }}" class="logo">
+    <div class="left">
+        <h1>Capture Photo</h1>
+        <br>
+        <video autoplay="true" id="videoElement"></video>
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="No Image" id="newImg" class="logsize" hidden>
+    </div>
+    <div class="right">
+        <button id="capButton" class="button zoom" onclick="triggerPythonFunction()">Take Picture</button>
+        <p class="box" id="response"></p>
+        <a class="button zoom" href="{{ url_for('scan') }}" id="nextButton" hidden>Next</a>
+    </div>
+
+    <script>
+        function triggerPythonFunction() {
+            document.getElementById('response').innerText = "Processing...";
+            
+            stopCam().then(() => {
+                fetch('/capture-pic', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'button_clicked' })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('response').innerHTML = data.message; // Display "Picture saved!"
+                    document.getElementById('capButton').setAttribute('hidden', '');
+                    document.getElementById('videoElement').setAttribute('hidden', '');
+                    document.getElementById('nextButton').removeAttribute('hidden');
+                    document.getElementById('newImg').removeAttribute('hidden');
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        }
+
+
+        function startCam() {
+            var video = document.querySelector("#videoElement");
+
+            if (navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function (stream) {
+                video.srcObject = stream;
+                })
+                .catch(function (err0r) {
+                console.log("Something went wrong!");
+                });
+            }
+        }
+
+        function stopCam() {
+            return new Promise((resolve) => {
+                var video = document.querySelector("#videoElement");
+                if (video.srcObject) {
+                    var stream = video.srcObject;
+                    var tracks = stream.getTracks();
+
+                    tracks.forEach(track => track.stop()); 
+                    video.srcObject = null;
+                }
+                setTimeout(resolve, 500); 
+            });
+        }
+        window.onload = startCam;
+    </script>
+
+</body>
+</html>

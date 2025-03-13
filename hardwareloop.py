@@ -14,7 +14,7 @@ moisture = 0
 lighton = False
 
 while True:
-    with open('~/ai-plant-table/static/data.json', 'r') as file:
+    with open('/home/irl/ai-plant-table/static/data.json', 'r') as file:
         data = json.load(file)
     
     recmoist = data['moisture']

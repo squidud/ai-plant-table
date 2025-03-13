@@ -15,7 +15,7 @@
     </div>
     <div class="right">
         <button id="scanButton" class="button zoom" onclick="triggerPythonFunction()">Scan Image</button>
-        <button class="button zoom" href="{{ url_for('cam') }}">Retry</button>
+        <a class="button zoom" href="{{ url_for('cam') }}">Retry</a>
         <p class="box" id="response"></p>
         <a class="button zoom" href="{{ url_for('index') }}" id="dashButton" hidden>Dashboard</a>
     </div>

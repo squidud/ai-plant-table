@@ -14,7 +14,7 @@ moisture = 0
 lighton = False
 
 while True:
-    with open('./static/data.json', 'r') as file:
+    with open('/static/data.json', 'r') as file:
         data = json.load(file)
     
     recmoist = data['moisture']

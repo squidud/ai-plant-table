@@ -12,8 +12,8 @@ ads = ADS.ADS1115(i2c)
 chan = AnalogIn(ads, ADS.P0)
 
 # Define calibration values (adjust these based on testing)
-DRY_VALUE = 26500  # Value when soil is completely dry
-WET_VALUE = 13000  # Value when soil is fully wet/submerged
+DRY_VALUE = 17855  # Value when soil is completely dry
+WET_VALUE = 7975  # Value when soil is fully wet/submerged
 
 def read_moisture():
     """

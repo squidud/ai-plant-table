@@ -1,22 +1,26 @@
-import RPi.GPIO as GPIO
+import gpiod
 import time
 
-# Set GPIO mode to BCM
-GPIO.setmode(GPIO.BCM)
+chip = gpiod.Chip('gpiochip0')
 
-# Function to turn on the relay (activate)
 def p_on(pin):
-    GPIO.setup(pin, GPIO.OUT)
-    GPIO.output(pin, GPIO.HIGH)  
+    line = chip.get_line(pin)
+    config = gpiod.LineRequest()
+    config.consumer = 'relay_control'
+    config.request_type = gpiod.LineRequest.DIRECTION_OUTPUT
+    line.request(config, default_val=0)
+    line.set_value(1)
     print(f"Relay on pin {pin} is now ON")
 
-# Function to turn off the relay (deactivate)
 def p_off(pin):
-    GPIO.setup(pin, GPIO.OUT)
-    GPIO.output(pin, GPIO.LOW)  
+    line = chip.get_line(pin)
+    config = gpiod.LineRequest()
+    config.consumer = 'relay_control'
+    config.request_type = gpiod.LineRequest.DIRECTION_OUTPUT
+    line.request(config, default_val=0)
+    line.set_value(0)
     print(f"Relay on pin {pin} is now OFF")
 
-# Function for ejecting a bit of water from the pump
 def squirt(pin):
     p_on(pin)
     time.sleep(2)

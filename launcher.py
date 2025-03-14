@@ -13,9 +13,9 @@ def scan():
 def index():
     return render_template('index.html')  # serves main 'dashboard' page
 
-@app.route('/log')
-def log():
-    return render_template('log.html')  # serves main 'dashboard' page
+@app.route('/logger')
+def logger():
+    return render_template('logger.html')  # serves main 'dashboard' page
 
 @app.route('/cam')
 def cam():

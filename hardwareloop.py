@@ -20,8 +20,8 @@ while True:
     moisture = read_moisture()
     ctime = datetime.datetime.now()
 
-    # Ensure squirt() runs only once per 10-minute interval
-    if (ctime.minute % 10) == 0:
+    # Ensure squirt() runs only once per 30-minute interval
+    if (ctime.minute % 30) == 0:
         if last_squirt_time is None or (ctime - last_squirt_time).total_seconds() >= 600:
             if moisture < recmoist:
                 squirt(h20pin)

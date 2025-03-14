@@ -10,6 +10,8 @@ moisture = 0
 lighton = False
 last_squirt_time = None  # Store the last execution time
 
+print("hardware looping")
+
 while True:
     with open('/home/irl/ai-plant-table/static/data.json', 'r') as file:
         data = json.load(file)
@@ -32,6 +34,7 @@ while True:
     if (ctime.hour >= (12 - (reclux / 2))) and (ctime.hour < (12 + (reclux / 2))):
         if not lighton:
             lighton = True
+            print("turning on light")
             p_on(luxpin)
     else:
         if lighton:

@@ -14,6 +14,7 @@ last_squirt_time = None  # Store the last execution time
 print("hardware looping")
 log_action("Initializing plant care loop...")
 
+
 while True:
     with open('/home/irl/ai-plant-table/static/data.json', 'r') as file:
         data = json.load(file)

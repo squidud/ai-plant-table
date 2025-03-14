@@ -7,3 +7,5 @@ def log_action(action):
     log_entry = f"{timestamp}, {action}\n"
     with open(LOG_FILE, "a") as f:
         f.write(log_entry)
+
+log_action("hello2")

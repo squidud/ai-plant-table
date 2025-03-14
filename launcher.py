@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 from imagescan import scanny
 from camerashit import capture
 import time
+from logger import log_action
 
 app = Flask(__name__)
 
@@ -51,6 +52,7 @@ LOG_FILE = "static/log.txt" #file for activity log
 
 with open(LOG_FILE, "w") as f:  
     f.write("")  # Clear the log
+    log_action("Log initialized")
 
 @app.route("/log", methods=["GET"])
 def get_log():

@@ -25,6 +25,9 @@ while True:
     moisture = read_moisture()
     ctime = datetime.datetime.now()
 
+    if (ctime.minute % 30) == 0:
+        log_action("Moisture level: {moisture}%")
+
     # Ensure squirt() runs only once per 30-minute interval
     if (ctime.minute % 30) == 0:
         if last_squirt_time is None or (ctime - last_squirt_time).total_seconds() >= 600:
@@ -32,8 +35,6 @@ while True:
                 log_action("Dispensed water.")
                 squirt(h20pin)
                 last_squirt_time = ctime  # Update the last execution time
-            else:
-                log_action("Checked moisture, too high to water.")
             print(f"FYI, recmoist is {recmoist} and reclux is {reclux}")
 
     # Control the light based on sunlight data

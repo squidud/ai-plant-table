@@ -1,4 +1,5 @@
 import cv2
+from logger import log_action
 
 IMAGE_PATH = "static/image.jpg"
 
@@ -16,9 +17,10 @@ def capture():
 
     if result:
         cv2.imwrite(IMAGE_PATH, image) 
+        log_action("Saved plant photo.")
     else:
         print("No image detected. Please try again.")
-
+        log_action("Error saving plant photo.")
     # Release the camera
     cam.release()
 

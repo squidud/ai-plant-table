@@ -15,7 +15,7 @@
     </div>
     <div class="right">
         <a class="button zoom" href="{{ url_for('index') }}">Dashboard</a>
-        <p>log thing :0</p>
+        <div id="log"></div>
     </div>
 
 </body>
@@ -41,6 +41,26 @@
 
     // Auto-load message when the page loads
     window.onload = fetchPlant;
+</script>
+
+<script>
+    function fetchLog() {
+        fetch("/log")
+            .then(response => response.json())
+            .then(data => {
+                let logDiv = document.getElementById("log");
+                logDiv.innerHTML = ""; // Clear previous content
+                data.forEach(entry => {
+                    let p = document.createElement("p");
+                    p.textContent = entry;
+                    logDiv.appendChild(p);
+                });
+            })
+            .catch(error => console.error("Error fetching log:", error));
+    }
+
+    setInterval(fetchLog, 5000); // Refresh log every 5 seconds
+    window.onload = fetchLog;
 </script>
 
 

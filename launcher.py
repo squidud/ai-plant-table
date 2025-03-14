@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from imagescan import scanny
 from camerashit import capture
+import time
 
 app = Flask(__name__)
 
@@ -43,6 +44,19 @@ def run_scanny():
     result = scanny() 
     
     return jsonify({"plant_name": result})  
+
+#log bs below...
+
+LOG_FILE = "static/log.txt" #file for activity log
+
+with open(LOG_FILE, "w") as f:  
+    f.write("")  # Clear the log
+
+@app.route("/log", methods=["GET"])
+def get_log():
+    with open(LOG_FILE, "r") as f:
+        log_data = f.readlines()
+    return jsonify(log_data)
 
 
 if __name__ == '__main__':

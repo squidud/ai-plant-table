@@ -4,6 +4,7 @@ import os
 from pprint import pprint
 from dotenv import load_dotenv
 from google import genai
+from logger import log_action
 
 IMAGE_PATH = "static/image.jpg"
 
@@ -41,6 +42,7 @@ def scanny():
   pprint("plantnet response code: " + str(response.status_code))
   pprint(common_name + " detected")
   pprint("sending to gemini...")
+  log_action(common_name+" detected succesfully. Sending to gemini...")
 
 
   #google gemini response bullshit
@@ -51,6 +53,7 @@ def scanny():
       model="gemini-2.0-flash", contents=gem_prompt
   )
   print("Gemini response {ideal_moisture_as_percent, hours_of_light/day}: " + response.text)
+  log_action("Gemini response: " + response.text)
 
   #writes information to json file
   newjsondata = {

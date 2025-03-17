@@ -25,10 +25,14 @@ while True:
     moisture = read_moisture()
     ctime = datetime.datetime.now()
 
+    lastlogmin = None
+
     # Ensure squirt() runs only once per 30-minute interval
     if (ctime.minute % 30) == 0:
         if last_squirt_time is None or (ctime - last_squirt_time).total_seconds() >= 600:
-            log_action("Moisture level: "+str(moisture)+"%")
+            if ctime.minute != lastlogmin or lastlogmin is None:
+                log_action("Moisture level: "+str(moisture)+"%")
+                lastlogmin = ctime.minute
             if moisture < recmoist:
                 log_action("Dispensed water.")
                 squirt(h20pin)

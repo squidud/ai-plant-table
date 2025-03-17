@@ -57,11 +57,13 @@
             .then(response => response.json())
             .then(data => {
                 let logDiv = document.getElementById("log");
-                logDiv.innerText = data.join("\n"); // Display log
+                let latestEntries = data.slice(-65); // Get the last 65 entries
+                logDiv.innerText = latestEntries.join("\n"); // Display log
                 logDiv.scrollTop = logDiv.scrollHeight; // Auto-scroll to latest entry
             })
             .catch(error => console.error("Error fetching log:", error));
     }
 </script>
+
 
 </html>

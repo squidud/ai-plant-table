@@ -32,53 +32,36 @@
 </body>
 
 <script>
-    // Updates readout for current plant if possible
+    document.addEventListener("DOMContentLoaded", function () {
+        fetchPlant();
+        fetchLog();
+    });
+
     function fetchPlant() {
         fetch('/static/data.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('JSON file not found, assuming no plant');  // Handle missing file
-            }
-            return response.json();
-        })
-        .then(data => {
-            document.getElementById('plantTitle').innerText = data.commonname;
-        })
-        .catch(error => {
-            console.error('Error fetching JSON:', error);
-            document.getElementById('plantTitle').innerText = "No plant registered!";
-        });
+            .then(response => {
+                if (!response.ok) throw new Error('JSON file not found, assuming no plant');
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('plantTitle').innerText = data.commonname;
+            })
+            .catch(error => {
+                console.error('Error fetching JSON:', error);
+                document.getElementById('plantTitle').innerText = "No plant registered!";
+            });
     }
-
-    window.onload = fetchPlant;
-
-    // Optimized log fetching
-    let previousLog = ""; // Stores last log state
-    const MAX_ENTRIES = 100; // Limit log entries displayed
 
     function fetchLog() {
         fetch("/log")
             .then(response => response.json())
             .then(data => {
-                // Limit to last MAX_ENTRIES
-                if (data.length > MAX_ENTRIES) {
-                    data = data.slice(-MAX_ENTRIES);
-                }
-
-                let newLog = data.join("\n"); // Convert array to string for comparison
                 let logDiv = document.getElementById("log");
-
-                if (newLog !== previousLog) { // Only update if there's a change
-                    logDiv.innerText = newLog;
-                    logDiv.scrollTop = logDiv.scrollHeight; // Auto-scroll to latest entry
-                    previousLog = newLog;
-                }
+                logDiv.innerText = data.join("\n"); // Display log
+                logDiv.scrollTop = logDiv.scrollHeight; // Auto-scroll to latest entry
             })
             .catch(error => console.error("Error fetching log:", error));
     }
-
-    setInterval(fetchLog, 5000); // Refresh log every 5 seconds
-    window.onload = fetchLog;
 </script>
 
 </html>

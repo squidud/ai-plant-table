@@ -29,11 +29,10 @@
         <a class="button zoom" href="{{ url_for('index') }}">Dashboard</a>
         <div class="log-container" id="log"></div>
     </div>
-
 </body>
 
 <script>
-    //is possible, updates readout for current plant :)
+    // Updates readout for current plant if possible
     function fetchPlant() {
         fetch('/static/data.json')
         .then(response => {
@@ -51,20 +50,29 @@
         });
     }
 
-    // Auto-load message when the page loads
     window.onload = fetchPlant;
 
+    // Optimized log fetching
+    let previousLog = ""; // Stores last log state
+    const MAX_ENTRIES = 100; // Limit log entries displayed
+
     function fetchLog() {
         fetch("/log")
             .then(response => response.json())
             .then(data => {
+                // Limit to last MAX_ENTRIES
+                if (data.length > MAX_ENTRIES) {
+                    data = data.slice(-MAX_ENTRIES);
+                }
+
+                let newLog = data.join("\n"); // Convert array to string for comparison
                 let logDiv = document.getElementById("log");
-                logDiv.innerHTML = ""; // Clear previous content
-                data.forEach(entry => {
-                    let p = document.createElement("p");
-                    p.textContent = entry;
-                    logDiv.appendChild(p);
-                });
+
+                if (newLog !== previousLog) { // Only update if there's a change
+                    logDiv.innerText = newLog;
+                    logDiv.scrollTop = logDiv.scrollHeight; // Auto-scroll to latest entry
+                    previousLog = newLog;
+                }
             })
             .catch(error => console.error("Error fetching log:", error));
     }
@@ -72,26 +80,5 @@
     setInterval(fetchLog, 5000); // Refresh log every 5 seconds
     window.onload = fetchLog;
 </script>
-
-<script>
-    function fetchLog() {
-        fetch("/log")
-            .then(response => response.json())
-            .then(data => {
-                let logDiv = document.getElementById("log");
-                logDiv.innerHTML = ""; // Clear previous content
-                data.forEach(entry => {
-                    let p = document.createElement("p");
-                    p.textContent = entry;
-                    logDiv.appendChild(p);
-                });
-            })
-            .catch(error => console.error("Error fetching log:", error));
-    }
-
-    setInterval(fetchLog, 5000); // Refresh log every 5 seconds
-    window.onload = fetchLog;
-</script>
-
 
 </html>

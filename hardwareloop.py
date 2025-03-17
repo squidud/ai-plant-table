@@ -11,6 +11,8 @@ moisture = 0
 lighton = False
 last_squirt_time = None  # Store the last execution time
 
+lastlogmin = None
+
 print("hardware looping")
 log_action("Initializing plant care loop...")
 
@@ -25,7 +27,6 @@ while True:
     moisture = read_moisture()
     ctime = datetime.datetime.now()
 
-    lastlogmin = None
 
     # Ensure squirt() runs only once per 30-minute interval
     if (ctime.minute % 30) == 0:
